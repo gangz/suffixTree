@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 import org.apache.log4j.Logger;
 
-class Edge<T, S extends Iterable<T>> implements Iterable<T> {
+public  class Edge<T, S extends Iterable<T>> implements Iterable<T> {
 	private final int start;
 	private int end = -1;
 	private final Node<T,S> parentNode;
@@ -29,7 +29,7 @@ class Edge<T, S extends Iterable<T>> implements Iterable<T> {
 	 *            The master {@link SuffixTree} containing the root element
 	 *            which this edge is a child of.
 	 */
-	Edge(int start, Node<T,S> parent, Sequence<T,S> sequence, SuffixTree<T,S> tree) {
+	public  Edge(int start, Node<T,S> parent, Sequence<T,S> sequence, SuffixTree<T,S> tree) {
 		this.start = start;
 		this.parentNode = parent;
 		this.sequence = sequence;
@@ -43,7 +43,7 @@ class Edge<T, S extends Iterable<T>> implements Iterable<T> {
 	 *            The possible start item.
 	 * @return True if this edge starts with item. False if not.
 	 */
-	boolean isStarting(Object item) {
+	public  boolean isStarting(Object item) {
 		return sequence.getItem(start).equals(item);
 	}
 
@@ -114,7 +114,7 @@ class Edge<T, S extends Iterable<T>> implements Iterable<T> {
 	 * 
 	 * @return True if this edge ends at a node. False if not.
 	 */
-	boolean isTerminating() {
+	public  boolean isTerminating() {
 		return terminal != null;
 	}
 
@@ -123,7 +123,7 @@ class Edge<T, S extends Iterable<T>> implements Iterable<T> {
 	 * 
 	 * @return
 	 */
-	int getLength() {
+	public  int getLength() {
 		int realEnd = getEnd();
 		return realEnd - start;
 	}
@@ -133,7 +133,7 @@ class Edge<T, S extends Iterable<T>> implements Iterable<T> {
 	 * 
 	 * @return The terminating node if any exists, null otherwise.
 	 */
-	Node<T,S> getTerminal() {
+	public  Node<T,S> getTerminal() {
 		return terminal;
 	}
 
@@ -148,7 +148,7 @@ class Edge<T, S extends Iterable<T>> implements Iterable<T> {
 	 *             when the position exceeds the length of the current edge.
 	 */
 	@SuppressWarnings("unchecked")
-	T getItemAt(int position) {
+	public  T getItemAt(int position) {
 		if (position > getLength())
 			throw new IllegalArgumentException("Index " + position
 					+ " is greater than " + getLength()
@@ -162,7 +162,7 @@ class Edge<T, S extends Iterable<T>> implements Iterable<T> {
 	 * @return The item at index 0 of this edge.
 	 */
 	@SuppressWarnings("unchecked")
-	T getStartItem() {
+	public  T getStartItem() {
 		return (T) sequence.getItem(start);
 	}
 
@@ -175,6 +175,15 @@ class Edge<T, S extends Iterable<T>> implements Iterable<T> {
 				break;
 		}
 		return sb.toString();
+	}
+	
+
+	public SequenceTerminal getSequenceTerminal() {
+		for (int i = start; i < getEnd(); i++) {
+			if(sequence.getItem(i).getClass().equals(SequenceTerminal.class))
+				return (SequenceTerminal)(sequence.getItem(i));
+		}
+		return null;
 	}
 
 	/**
@@ -207,4 +216,9 @@ class Edge<T, S extends Iterable<T>> implements Iterable<T> {
 			}
 		};
 	}
+
+	public Node<T, S> getParentNode() {
+		return parentNode;
+	}
+
 }

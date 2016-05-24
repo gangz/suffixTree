@@ -17,14 +17,14 @@ import org.apache.log4j.Logger;
  */
 public class SuffixTree<I,S extends Iterable<I>> {
 
-	private final Node<I,S> root;
+	protected final Node<I,S> root;
 	private final Sequence<I,S> sequence;
 
 	private Suffix<I,S> suffix;
 	private final ActivePoint<I,S> activePoint;
 	private int currentEnd = 0;
 	private int insertsThisStep = 0;
-	private Node<I,S> lastNodeInserted = null;
+	protected Node<I,S> lastNodeInserted = null;
 	
 	private Logger logger = Logger.getLogger(SuffixTree.class);
 
@@ -108,7 +108,7 @@ public class SuffixTree<I,S extends Iterable<I>> {
 	 * 
 	 * @return The root node of the tree.
 	 */
-	Node<I,S> getRoot() {
+	public Node<I,S> getRoot() {
 		return root;
 	}
 
@@ -160,9 +160,17 @@ public class SuffixTree<I,S extends Iterable<I>> {
 	 */
 	void setSuffixLink(Node<I,S> node) {
 		if (isNotFirstInsert()) {
-			lastNodeInserted.setSuffixLink(node);
+			insertSuffixLink(node);
 		}
 		lastNodeInserted = node;
+	}
+
+	/**
+	 * Modified by gangz(gangz2009@gmail.com) to easily retrieve all suffix links
+	 * @param node
+	 */
+	protected void insertSuffixLink(Node<I, S> node) {
+		lastNodeInserted.setSuffixLink(node);
 	}
 
 	@Override

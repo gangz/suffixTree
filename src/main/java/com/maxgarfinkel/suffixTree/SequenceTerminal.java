@@ -6,7 +6,7 @@ package com.maxgarfinkel.suffixTree;
  * @author maxgarfinkel
  * 
  */
-class SequenceTerminal<S> {
+public class SequenceTerminal<S> {
 
 	private final S sequence;
 	

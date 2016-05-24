@@ -12,14 +12,14 @@ public class Cursor<T,S extends Iterable<T>> {
 	private int length;
 	
 	
-	Cursor(SuffixTree<T,S> tree){
+	public Cursor(SuffixTree<T,S> tree){
 		this.tree = tree;
 		node = tree.getRoot();
 		edge = null;
 		length = 0;
 	}
 	
-	boolean proceedTo(T item){
+	public boolean proceedTo(T item){
 		if(edge == null){
 			Edge<T,S> tmpEdge = node.getEdgeStarting(item);
 			if(tmpEdge != null){
@@ -55,7 +55,7 @@ public class Cursor<T,S extends Iterable<T>> {
 		}
 	}
 	
-	Collection<SequenceTerminal<S>> getSequenceTerminals(){
+	public  Collection<SequenceTerminal<S>> getSequenceTerminals(){
 		if(edge == null){
 			return node.getSuffixTerminals();
 		}else{
@@ -88,7 +88,7 @@ public class Cursor<T,S extends Iterable<T>> {
 		}
 	}
 	
-	void returnToRoot(){
+	public void returnToRoot(){
 		node = tree.getRoot();
 		edge = null;
 		length = 0;

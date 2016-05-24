@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-class Node<T,S extends Iterable<T>> implements Iterable<Edge<T,S>> {
+public class Node<T,S extends Iterable<T>> implements Iterable<Edge<T,S>> {
 	private final Map<T, Edge<T,S>> edges = new HashMap<T, Edge<T,S>>();
 	private final Edge<T,S> incomingEdge;
 	private Set<SequenceTerminal<S>> sequenceTerminals = new HashSet<SequenceTerminal<S>>();
@@ -57,7 +57,7 @@ class Node<T,S extends Iterable<T>> implements Iterable<Edge<T,S>> {
 			activePoint.updateAfterInsert(suffix);
 			
 			if(tree.isNotFirstInsert() && !this.equals(tree.getRoot())){
-				tree.getLastNodeInserted().setSuffixLink(this);
+				tree.setSuffixLink(this);
 			}
 			if (suffix.isEmpty())
 				return;
@@ -97,7 +97,7 @@ class Node<T,S extends Iterable<T>> implements Iterable<Edge<T,S>> {
 	 * @param item
 	 * @return The edge extending from this node starting with item.
 	 */
-	Edge<T,S> getEdgeStarting(Object item) {
+	public Edge<T,S> getEdgeStarting(Object item) {
 			return edges.get(item);
 	}
 
@@ -106,7 +106,7 @@ class Node<T,S extends Iterable<T>> implements Iterable<Edge<T,S>> {
 	 * 
 	 * @return True if node has suffix link. False if not.
 	 */
-	boolean hasSuffixLink() {
+	public boolean hasSuffixLink() {
 		return link != null;
 	}
 
@@ -115,7 +115,7 @@ class Node<T,S extends Iterable<T>> implements Iterable<Edge<T,S>> {
 	 * 
 	 * @return The count of the number edges extending from this node.
 	 */
-	int getEdgeCount() {
+	public int getEdgeCount() {
 		return edges.size();
 	}
 
@@ -132,7 +132,7 @@ class Node<T,S extends Iterable<T>> implements Iterable<Edge<T,S>> {
 	 * @return The node that this nodes suffix link points to if it has one.
 	 *         Null if not.
 	 */
-	Node<T,S> getSuffixLink() {
+	public  Node<T,S> getSuffixLink() {
 		return link;
 	}
 
@@ -161,5 +161,9 @@ class Node<T,S extends Iterable<T>> implements Iterable<Edge<T,S>> {
 	
 	public Collection<Edge<T,S>> getEdges(){
 		return edges.values();
+	}
+
+	public Edge<T,S> getIncomingEdge() {
+		return incomingEdge;
 	}
 }

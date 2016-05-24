@@ -18,7 +18,7 @@ public class Utils {
 	 * @return A new sequence with an extra element at the end containing the
 	 *         terminating object.
 	 */
-	static <I,S extends Iterable<I>> Object[] addTerminalToSequence(S sequence,
+	public static <I,S extends Iterable<I>> Object[] addTerminalToSequence(S sequence,
 			SequenceTerminal<S> terminatingObject) {
 		
 		ArrayList<Object> list = new ArrayList<Object>();
@@ -34,7 +34,7 @@ public class Utils {
 		return newSequence;
 	}
 
-	static <T,S extends Iterable<T>> String printTreeForGraphViz(SuffixTree<T,S> tree) {
+	public static <T,S extends Iterable<T>> String printTreeForGraphViz(SuffixTree<T,S> tree) {
 		return printTreeForGraphViz(tree, true);
 	}
 	
@@ -46,7 +46,7 @@ public class Utils {
 	 * @return A string containing the contents of a .dot representation of the
 	 *         tree.
 	 */
-	static <T,S extends Iterable<T>> String printTreeForGraphViz(SuffixTree<T,S> tree, boolean printSuffixLinks) {
+	public static <T,S extends Iterable<T>> String printTreeForGraphViz(SuffixTree<T,S> tree, boolean printSuffixLinks) {
 		LinkedList<Node<T,S>> stack = new LinkedList<Node<T,S>>();
 		stack.add(tree.getRoot());
 		Map<Node<T,S>, Integer> nodeMap = new HashMap<Node<T,S>, Integer>();

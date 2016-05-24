@@ -1,5 +1,7 @@
 package com.maxgarfinkel.suffixTree;
 
+import java.util.LinkedList;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -180,5 +182,38 @@ public class SuffixTree<I,S extends Iterable<I>> {
 	
 	Sequence<I,S> getSequence(){
 		return sequence;
+	}
+
+	/**
+	 * Modified by gangz(gangz2009@gmail.com) to transverse all nodes
+	 */
+	public void transverseAllNodes(NodeVisitor<I, S> nodeVisitor) {
+		transverseNodes(nodeVisitor,this.getRoot());
+	}
+
+	/**
+	 * Modified by gangz(gangz2009@gmail.com) to transverse all nodes from given node
+	 */
+	public void transverseNodes(NodeVisitor<I, S> nodeVisitor, Node<I, S> from) {
+		if (from.getIncomingEdge()!=null) {
+			if (from.getIncomingEdge().isTerminating()){
+				nodeVisitor.visitTerminatingEdge(from.getIncomingEdge());
+			}
+		}
+		LinkedList<Node<I, S>> stack = new LinkedList<Node<I, S>>();
+		stack.add(from);
+		while (stack.size() > 0) {
+			LinkedList<Node<I, S>> childNodes = new LinkedList<Node<I, S>>();
+			for (Node<I, S> node : stack) {
+				nodeVisitor.visit(node);
+				for (Edge<I, S> edge : node) {
+					if (edge.isTerminating()) {
+						childNodes.push(edge.getTerminal());
+						nodeVisitor.visitTerminatingEdge(edge);
+					}
+				}
+			}
+			stack = childNodes;
+		}
 	}
 }

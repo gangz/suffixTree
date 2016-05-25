@@ -1,6 +1,8 @@
 package com.maxgarfinkel.suffixTree;
 
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -187,33 +189,25 @@ public class SuffixTree<I,S extends Iterable<I>> {
 	/**
 	 * Modified by gangz(gangz2009@gmail.com) to transverse all nodes
 	 */
-	public void transverseAllNodes(NodeVisitor<I, S> nodeVisitor) {
-		transverseNodes(nodeVisitor,this.getRoot());
+	public void transverse(EdgeVisitor<I, S> edgeVisitor) {
+		transverse(edgeVisitor,this.getRoot());
 	}
 
 	/**
 	 * Modified by gangz(gangz2009@gmail.com) to transverse all nodes from given node
 	 */
-	public void transverseNodes(NodeVisitor<I, S> nodeVisitor, Node<I, S> from) {
-		if (from.getIncomingEdge()!=null) {
-			if (from.getIncomingEdge().isTerminating()){
-				nodeVisitor.visitTerminatingEdge(from.getIncomingEdge());
-			}
+	public void transverse(EdgeVisitor<I, S> edgeVisitor, Node<I, S> from) {
+		for (Edge<I, S> edge : from){
+			transverseEdge(edgeVisitor,edge);
 		}
-		LinkedList<Node<I, S>> stack = new LinkedList<Node<I, S>>();
-		stack.add(from);
-		while (stack.size() > 0) {
-			LinkedList<Node<I, S>> childNodes = new LinkedList<Node<I, S>>();
-			for (Node<I, S> node : stack) {
-				nodeVisitor.visit(node);
-				for (Edge<I, S> edge : node) {
-					if (edge.isTerminating()) {
-						childNodes.push(edge.getTerminal());
-						nodeVisitor.visitTerminatingEdge(edge);
-					}
-				}
+	}
+
+	private void transverseEdge(EdgeVisitor<I, S> edgeVisitor, Edge<I, S> edge) {
+		edgeVisitor.visit(edge);
+		if (edge.isTerminating()){
+			for (Edge<I, S> subEdge:edge.getTerminal().getEdges()){
+				transverseEdge(edgeVisitor,subEdge);
 			}
-			stack = childNodes;
 		}
 	}
 }

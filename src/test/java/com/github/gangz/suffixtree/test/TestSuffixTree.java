@@ -13,9 +13,10 @@ public class TestSuffixTree {
 
 	@Test
 	public void printToDot() {
-		Word word = new Word("BANANA");
+		Word word = new Word("AAAA");
+		
 		SuffixTree<Character, Word> tree = new SuffixTree<Character, Word>(word);
-		String dotOfSuffixTree = Utils.printTreeForGraphViz(tree);
+		String dotOfSuffixTree = Utils.printTreeForGraphViz(tree,true,true);
 		System.out.println(dotOfSuffixTree);
 	}
 

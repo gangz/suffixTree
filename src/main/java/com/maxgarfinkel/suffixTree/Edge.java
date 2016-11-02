@@ -92,6 +92,8 @@ public  class Edge<T, S extends Iterable<T>> implements Iterable<T> {
 		oldEdge.end = end;
 		oldEdge.terminal = this.terminal;
 		breakNode.insert(oldEdge);
+		if (this.terminal!=null)
+			terminal.setIncomingEdge(oldEdge);
 		this.terminal = breakNode;
 		end = start + activePoint.getLength();
 		tree.setSuffixLink(breakNode);

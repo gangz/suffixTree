@@ -7,7 +7,7 @@ public class Word implements Iterable<Character> {
 
 	char[] word;
 	
-	Word(String word){
+	public Word(String word){
 		this.word = word.toCharArray();
 	}
 	
